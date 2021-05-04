@@ -1,0 +1,10 @@
+{
+    "/api": {
+        "target": "https://api.trakt.tv/",
+        "secure": false,
+        "pathRewrite": {
+            "^/api": ""
+        },
+        "changeOrigin": true
+    }
+}
