@@ -1,7 +1,9 @@
+import { Ids } from './ids.model';
+
 export interface Movie {
     title: string;
     year: number;
-    ids: MovieIds;
+    ids: Ids;
     tagline: string;
     overview: string;
     released: Date;
@@ -18,11 +20,4 @@ export interface Movie {
     available_translations: string[];
     genres: string[];
     certification: string;
-}
-
-export interface MovieIds {
-    trakt: number;
-    slug: string;
-    imdb: string;
-    tmdb: number;
 }

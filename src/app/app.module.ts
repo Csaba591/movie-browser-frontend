@@ -16,13 +16,17 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { ActorComponent } from './components/actor/actor.component';
+import { ActorPageComponent } from './components/actor-page/actor-page.component';
 
 @NgModule({
     declarations: [
         AppComponent,
         MovieComponent,
         MoviePageComponent,
-        HomePageComponent
+        HomePageComponent,
+        ActorComponent,
+        ActorPageComponent
     ],
     imports: [
         BrowserModule,
