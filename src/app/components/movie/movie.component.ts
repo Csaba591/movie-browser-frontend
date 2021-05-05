@@ -9,13 +9,12 @@ import { MovieService } from 'src/app/services/movie.service';
     styleUrls: ['./movie.component.less']
 })
 export class MovieComponent implements OnInit {
-    @Input() traktId?: number;
-
-    model?: Observable<Movie>;
+    @Input() movie?: Movie;
+    posterUrl?: Observable<string>;
 
     constructor(private movieService: MovieService) {}
 
-    ngOnInit(): void {
-        this.model = this.movieService.getMovie(this.traktId);
+    ngOnInit() {
+        this.posterUrl = this.movieService.getPosterUrl(this.movie!);
     }
 }

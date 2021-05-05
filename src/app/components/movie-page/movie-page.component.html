@@ -1,0 +1,14 @@
+<main>
+    <mat-tab-group mat-align-tabs="center">
+        <mat-tab label="Overview">
+            <div>
+                <app-movie *ngIf="model | async as movie" [movie]="movie"></app-movie>
+                <section *ngIf="ratings | async as ratings" class="ratings">
+                    {{ratings.rating}} from {{ratings.votes}}
+                </section>
+            </div>
+        </mat-tab>
+        <mat-tab label="Actors"></mat-tab>
+        <mat-tab label="Similar movies"></mat-tab>
+    </mat-tab-group>
+</main>

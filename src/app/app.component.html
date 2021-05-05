@@ -1,2 +1,15 @@
-<app-movie [traktId]="1"></app-movie>
+<mat-toolbar color="primary" class="navbar">
+    <button mat-button routerLink="/">
+        <mat-icon>home</mat-icon>
+        <span class="minispacer"></span>
+        <span class="mat-headline">Movie browser</span>
+    </button>
+    <span class="minispacer"></span>
+    <mat-form-field appearance="outline" class="searchbox">
+        <mat-label class="mat-caption">Search for movies</mat-label>
+        <input matInput placeholder="Title, genre or year">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <span class="spacer"></span>
+</mat-toolbar>
 <router-outlet></router-outlet>
