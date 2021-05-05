@@ -1,23 +1,47 @@
 import { Injectable } from '@angular/core';
 import {
-  HttpEvent, HttpInterceptor, HttpHandler, HttpRequest
+    HttpEvent,
+    HttpInterceptor,
+    HttpHandler,
+    HttpRequest
 } from '@angular/common/http';
 
 import { Observable } from 'rxjs';
+import { environment } from '../environments/environment';
 
-/** Pass untouched request through to the next request handler. */
+enum ReqDest {
+    Trakt,
+    Omdb
+}
+
 @Injectable()
 export class HeaderInterceptor implements HttpInterceptor {
+    intercept(
+        req: HttpRequest<any>,
+        next: HttpHandler
+    ): Observable<HttpEvent<any>> {
+        let modifiedReq: HttpRequest<any>;
+        if (this.getDestination(req) === ReqDest.Omdb) {
+            modifiedReq = req.clone({
+                setParams: { apikey: '69016ef2' }
+            });
+        } else {
+            modifiedReq = req.clone({
+                setHeaders: {
+                    'Content-Type': 'application/json',
+                    'trakt-api-key': environment.apikeys.trakt,
+                    'trakt-api-version': '2'
+                }
+            });
+        }
 
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const headersReq = req.clone({
-      setHeaders: { 
-        'Content-Type': 'application/json',
-        'trakt-api-key': '44512986a4d5ef94fbf4b2923d8b4a5692d6f7deef9dd3b893cf4038b6fe3e2b',
-        'trakt-api-version': '2'
-      }
-    });
+        return next.handle(modifiedReq);
+    }
 
-    return next.handle(headersReq);
-  }
+    getDestination(req: HttpRequest<any>): ReqDest {
+        if (req.url.includes('trakt')) {
+            return ReqDest.Trakt;
+        }
+        return ReqDest.Omdb;
+    }
 }
