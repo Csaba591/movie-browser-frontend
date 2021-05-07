@@ -6,42 +6,37 @@ import {
     HttpRequest
 } from '@angular/common/http';
 
-import { Observable } from 'rxjs';
+import { EMPTY, Observable } from 'rxjs';
 import { environment } from '../environments/environment';
-
-enum ReqDest {
-    Trakt,
-    Omdb
-}
+import { catchError } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @Injectable()
-export class HeaderInterceptor implements HttpInterceptor {
+/**
+ * HTTP request interceptor that inserts necessary headers/parameters
+ */
+export class APIRequestInterceptor implements HttpInterceptor {
+    constructor(private dialog: MatDialog) {}
+
     intercept(
         req: HttpRequest<any>,
         next: HttpHandler
     ): Observable<HttpEvent<any>> {
-        let modifiedReq: HttpRequest<any>;
-        if (this.getDestination(req) === ReqDest.Omdb) {
-            modifiedReq = req.clone({
-                setParams: { apikey: '69016ef2' }
-            });
-        } else {
-            modifiedReq = req.clone({
-                setHeaders: {
-                    'Content-Type': 'application/json',
-                    'trakt-api-key': environment.apikeys.trakt,
-                    'trakt-api-version': '2'
+        // Add TMDB API key from loaded from .env.json
+        const modifiedReq = req.clone({
+            setParams: { api_key: environment.apikeys.tmdb }
+        });
+        return next.handle(modifiedReq).pipe(
+            catchError((err) => {
+                console.log(err);
+                if (!this.dialog.openDialogs.length) {
+                    this.dialog.open(ErrorDialogComponent, {
+                        data: err.error.status_message || err.error
+                    });
                 }
-            });
-        }
-
-        return next.handle(modifiedReq);
-    }
-
-    getDestination(req: HttpRequest<any>): ReqDest {
-        if (req.url.includes('trakt')) {
-            return ReqDest.Trakt;
-        }
-        return ReqDest.Omdb;
+                return EMPTY;
+            })
+        );
     }
 }

@@ -1,23 +1,32 @@
-import { Ids } from './ids.model';
-
 export interface Movie {
-    title: string;
-    year: number;
-    ids: Ids;
-    tagline: string;
-    overview: string;
-    released: Date;
-    runtime: number;
-    country: string;
-    updated_at: Date;
-    trailer: string;
+    adult: boolean;
+    backdrop_path: string;
+    belongs_to_collection: object;
+    budget: number;
+    genres: Genre[];
     homepage: string;
+    id: number;
+    imdb_id: string;
+    original_language: string;
+    original_title: string;
+    overview: string;
+    popularity: number;
+    poster_path: string;
+    production_companies: string[];
+    production_countries: string[];
+    release_date: Date;
+    revenue: number;
+    runtime: number;
+    spoken_languages: string[];
     status: string;
-    rating: number;
-    votes: number;
-    comment_count: number;
-    language: string;
-    available_translations: string[];
-    genres: string[];
-    certification: string;
+    tagline: string;
+    title: string;
+    video: boolean;
+    vote_average: number;
+    vote_count: number;
+}
+
+interface Genre {
+    id: number;
+    name: string;
 }

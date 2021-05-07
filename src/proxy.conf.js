@@ -16,6 +16,25 @@ const proxyConfig = [
             '^/trakt': ''
         },
         changeOrigin: true
+    },
+
+    {
+        context: ['/tmdb-img'],
+        target: 'https://image.tmdb.org/t/p',
+        secure: false,
+        pathRewrite: {
+            '^/tmdb-img': ''
+        },
+        changeOrigin: true
+    },
+    {
+        context: ['/tmdb'],
+        target: 'https://api.themoviedb.org/3',
+        secure: false,
+        pathRewrite: {
+            '^/tmdb': ''
+        },
+        changeOrigin: true
     }
 ];
 
