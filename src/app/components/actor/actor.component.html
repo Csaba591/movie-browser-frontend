@@ -1,1 +1,7 @@
-<p>actor works!</p>
+<mat-card *ngIf="actor" class="actor-card">
+    <mat-card-header>
+        <mat-card-title>{{actor.name}}</mat-card-title>
+        <mat-card-subtitle>{{actor.character}}</mat-card-subtitle>
+    </mat-card-header>
+    <img mat-card-image [src]="profileUrl" [alt]="actor.name">
+</mat-card>

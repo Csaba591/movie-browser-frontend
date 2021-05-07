@@ -1,0 +1,31 @@
+.overview-content {
+    color: white;
+    padding: 50px 150px 100px 150px;
+    display: flex;
+
+    @media (max-width: 1024px) {
+        flex-direction: column;
+    }
+    @media (max-width: 760px) {
+        padding: 4px;
+    }
+}
+
+.overview-content:last-child {
+    margin-right: 0px;
+}
+
+.actor-section {
+    min-width: 30%;
+    margin-right: 25px;
+    @media (max-width: 1024px) {
+        flex-direction: column;
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+}
+
+.credits {
+    margin-top: 16px;
+    text-align: center;
+}

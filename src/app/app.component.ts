@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Movie } from './models/movie.model';
-import { MovieService } from './services/movie.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-root',
@@ -9,5 +7,13 @@ import { MovieService } from './services/movie.service';
     styleUrls: ['./app.component.less']
 })
 export class AppComponent {
-    title = 'Movie Browser';
+    constructor(private router: Router) {}
+
+    /**
+     * Redirect to movie search results page
+     * @param query title keyword we search for
+     */
+    search(query: string): void {
+        this.router.navigate(['/search'], { queryParams: { query: query } });
+    }
 }

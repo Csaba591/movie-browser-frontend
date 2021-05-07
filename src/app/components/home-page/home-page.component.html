@@ -1,9 +1,9 @@
 <main class="container">
-    <mat-grid-list cols="8" rowHeight="1:2" gutterSize="10px">
+    <mat-grid-list cols="6" rowHeight="1:2" gutterSize="10px">
         <mat-grid-tile *ngFor="let movie of (movies | async)" 
-            [routerLink]="'/movies/' + movie.ids.imdb"
+            [routerLink]="'/movies/' + movie.id"
             >
             <app-movie [movie]="movie"></app-movie>
         </mat-grid-tile>
-      </mat-grid-list>
+    </mat-grid-list>
 </main>

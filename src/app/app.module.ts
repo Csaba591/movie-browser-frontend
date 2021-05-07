@@ -5,7 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MovieComponent } from './components/movie/movie.component';
-import { HeaderInterceptor } from './header.interceptor';
+import { APIRequestInterceptor } from './header.interceptor';
 import { MoviePageComponent } from './components/movie-page/movie-page.component';
 import { HomePageComponent } from './components/home-page/home-page.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -18,6 +18,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ActorComponent } from './components/actor/actor.component';
 import { ActorPageComponent } from './components/actor-page/actor-page.component';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 @NgModule({
     declarations: [
@@ -26,7 +30,8 @@ import { ActorPageComponent } from './components/actor-page/actor-page.component
         MoviePageComponent,
         HomePageComponent,
         ActorComponent,
-        ActorPageComponent
+        ActorPageComponent,
+        ErrorDialogComponent
     ],
     imports: [
         BrowserModule,
@@ -39,10 +44,17 @@ import { ActorPageComponent } from './components/actor-page/actor-page.component
         MatIconModule,
         MatInputModule,
         MatButtonModule,
-        MatTabsModule
+        MatTabsModule,
+        MatChipsModule,
+        MatDividerModule,
+        MatDialogModule
     ],
     providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: HeaderInterceptor, multi: true }
+        {
+            provide: HTTP_INTERCEPTORS,
+            useClass: APIRequestInterceptor,
+            multi: true
+        }
     ],
     bootstrap: [AppComponent]
 })

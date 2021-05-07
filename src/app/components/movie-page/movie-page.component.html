@@ -1,14 +1,87 @@
 <main>
-    <mat-tab-group mat-align-tabs="center">
+    <mat-tab-group mat-align-tabs="center" [(selectedIndex)]="selectedIndex">
         <mat-tab label="Overview">
-            <div>
-                <app-movie *ngIf="model | async as movie" [movie]="movie"></app-movie>
-                <section *ngIf="ratings | async as ratings" class="ratings">
-                    {{ratings.rating}} from {{ratings.votes}}
-                </section>
+            <div *ngIf="(movie | async) as movie" 
+                class="overview-container"
+                [style.background-image]="'url(' + backdropUrl + ')'"
+                >
+                <div class="overview-content">
+                    <mat-card class="movie-section">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <span class="mat-display-3">{{movie.title}}</span></mat-card-title>
+                            <mat-card-subtitle>
+                                <div class="">Release date: {{movie.release_date}}</div>
+                                <div class="">Runtime: {{movie.runtime}} minutes</div>
+                            </mat-card-subtitle>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p class="mat-body-strong">{{movie.tagline || ''}}</p>
+                            <p class="mat-body">{{movie.overview || ''}}</p>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="movie-section">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <span class="mat-display-2">Details</span>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <p *ngIf="movie.genres.length">Genres: 
+                                <mat-chip-list aria-label="Fish selection">
+                                    <mat-chip color="accent" selected *ngFor="let genre of movie.genres">
+                                        {{genre.name}}
+                                    </mat-chip>
+                                </mat-chip-list>
+                            </p>
+                            <p class="mat-body-strong">
+                                Ratings: 
+                                <span *ngIf="movie.vote_average">
+                                    {{movie.vote_average}}/10 from {{movie.vote_count}} votes
+                                </span>
+                                <span *ngIf="!movie.vote_average">not rated yet</span>
+                            </p>
+                            <p class="mat-body">Budget: {{movie.budget ? '$' + movie.budget/1000000 + 'M' : 'unknown'}}</p>
+                            <p>Revenue: {{movie.budget ? '$' + movie.budget/1000000 + 'M' : 'unknown'}}</p>
+                            <p *ngIf="movie.imdb_id">
+                                <button mat-raised-button (click)="openUrl('https://www.imdb.com/title/' + movie.imdb_id)">See on IMDB</button>
+                            </p>
+                        </mat-card-content>
+                    </mat-card>
+                    <mat-card class="movie-section">
+                        <mat-card-header>
+                            <mat-card-title>
+                                <span class="mat-display-2">Trailer</span>
+                            </mat-card-title>
+                        </mat-card-header>
+                        <mat-card-content>
+                            <iframe [src]="videoUrl" 
+                                height="320"
+                                frameborder="0"
+                                allowfullscreen
+                                class="videoplayer">
+                            </iframe>
+                        </mat-card-content>
+                    </mat-card>
+                </div>
             </div>
         </mat-tab>
-        <mat-tab label="Actors"></mat-tab>
-        <mat-tab label="Similar movies"></mat-tab>
+        <mat-tab label="Actors">
+            <mat-grid-list cols="5" rowHeight="1:2" gutterSize="10px">
+                <mat-grid-tile *ngFor="let actor of (cast | async)" [routerLink]="'/actor/' + actor.id">
+                    <app-actor [actor]="actor"></app-actor>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-tab>
+        <mat-tab label="Similar movies">
+            <div *ngIf="(similarMovies | async) as similarMovies" class="similar-movies" [ngClass]="{'not-found': !similarMovies.length}">
+                <mat-grid-list *ngIf="similarMovies.length" cols="5" rowHeight="1:2" gutterSize="10px">
+                    <mat-grid-tile *ngFor="let movie of similarMovies" [routerLink]="'/movies/' + movie.id">
+                        <app-movie [movie]="movie"></app-movie>
+                    </mat-grid-tile>
+                </mat-grid-list>
+                <strong *ngIf="!similarMovies.length">We haven't found any :/</strong>
+            </div>
+        </mat-tab>
     </mat-tab-group>
 </main>

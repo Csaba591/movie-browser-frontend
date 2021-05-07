@@ -7,9 +7,12 @@
     <span class="minispacer"></span>
     <mat-form-field appearance="outline" class="searchbox">
         <mat-label class="mat-caption">Search for movies</mat-label>
-        <input matInput placeholder="Title, genre or year">
-        <mat-icon matSuffix>search</mat-icon>
+        <input matInput 
+            #searchQuery
+            placeholder="Eg. Batman Origins"
+            (keyup.enter)="search(searchQuery.value)"
+            >
+        <mat-icon matSuffix (click)="search(searchQuery.value)">search</mat-icon>
     </mat-form-field>
-    <span class="spacer"></span>
 </mat-toolbar>
 <router-outlet></router-outlet>

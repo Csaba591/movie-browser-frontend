@@ -1,7 +1,9 @@
 <mat-card *ngIf="movie" class="movie-card">
     <mat-card-header>
-        <mat-card-title>{{movie.title}}</mat-card-title>
-        <mat-card-subtitle>{{movie.year}}</mat-card-subtitle>
+        <mat-card-title class="title">{{movie.title}}</mat-card-title>
+        <mat-card-subtitle>
+            {{movie.release_date}}<span *ngIf="movie.vote_average">  -  <b>{{movie.vote_average}}/10</b></span>
+        </mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image class="poster" [src]="posterUrl | async" [alt]="movie.title">
+    <img mat-card-image class="poster" [src]="posterUrl" [alt]="movie.title">
 </mat-card>
