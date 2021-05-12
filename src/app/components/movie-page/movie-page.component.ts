@@ -50,9 +50,9 @@ export class MoviePageComponent implements OnInit {
                 this.movieService.getVideoUrl(movie).subscribe(
                     // The trailer video URL needs to be considered safe to load
                     (url) =>
-                        (this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-                            url
-                        ))
+                        (this.videoUrl = url.length
+                            ? this.sanitizer.bypassSecurityTrustResourceUrl(url)
+                            : undefined)
                 );
                 this.backdropUrl = this.movieService.getBackdropUrl(movie);
                 this.cast = this.actorService.getActorsForMovie(movie);
@@ -71,5 +71,9 @@ export class MoviePageComponent implements OnInit {
     // Open link in new tab
     openUrl(url: string): void {
         window.open(url, '_blank');
+    }
+
+    getAmountInMillions(amount?: number): string {
+        return amount ? '$' + Math.round(amount / 1000000) + 'M' : 'unknown';
     }
 }

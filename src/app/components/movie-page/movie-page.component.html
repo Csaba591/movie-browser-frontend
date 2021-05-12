@@ -41,14 +41,14 @@
                                 </span>
                                 <span *ngIf="!movie.vote_average">not rated yet</span>
                             </p>
-                            <p class="mat-body">Budget: {{movie.budget ? '$' + movie.budget/1000000 + 'M' : 'unknown'}}</p>
-                            <p>Revenue: {{movie.budget ? '$' + movie.budget/1000000 + 'M' : 'unknown'}}</p>
+                            <p class="mat-body">Budget: {{getAmountInMillions(movie.budget)}}</p>
+                            <p>Revenue: {{getAmountInMillions(movie.revenue)}}</p>
                             <p *ngIf="movie.imdb_id">
                                 <button mat-raised-button (click)="openUrl('https://www.imdb.com/title/' + movie.imdb_id)">See on IMDB</button>
                             </p>
                         </mat-card-content>
                     </mat-card>
-                    <mat-card class="movie-section">
+                    <mat-card class="movie-section" *ngIf="videoUrl">
                         <mat-card-header>
                             <mat-card-title>
                                 <span class="mat-display-2">Trailer</span>
